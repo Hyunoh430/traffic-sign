@@ -1,7 +1,6 @@
 import sys
 import torch
 from PIL import Image
-import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import torchvision.transforms as T
@@ -46,17 +45,27 @@ def inference_and_save(model, input_image_path, output_image_path, threshold=0.3
     plt.close()
     print(f'Result saved at {output_image_path}')
 
-# 사용 예시
-input_image_path = sys.argv[1]  # 입력 이미지 경로
-output_image_path = sys.argv[2]  # 출력 이미지 저장 경로
+    return inference_time  # 추론 시간 반환
 
 # 모델 로드
+print("Loading model...")
 model_path = '/home/Pi/Documents/traffic/gray.pt'
 model = torch.load(model_path, map_location=torch.device('cpu'))
 model.eval()
+print("Model loaded successfully.")
 
 # 클래스 이름 정의 (예시)
 class_names = {0: 'trafficlight', 1: 'speedlimit', 2: 'crosswalk', 3: 'stop'}
 
+# 사용 예시
+if len(sys.argv) != 3:
+    print("Usage: python script.py <input_image_path> <output_image_path>")
+    sys.exit(1)
+
+input_image_path = sys.argv[1]  # 입력 이미지 경로
+output_image_path = sys.argv[2]  # 출력 이미지 저장 경로
+
 # 추론 및 저장
-inference_and_save(model, input_image_path, output_image_path, threshold=0.3, class_names=class_names)
+print("Starting inference...")
+inference_time = inference_and_save(model, input_image_path, output_image_path, threshold=0.3, class_names=class_names)
+print(f"Total inference time: {inference_time:.4f} seconds")
