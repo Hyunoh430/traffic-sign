@@ -1,0 +1,7 @@
+train: path/to/images  # 훈련 이미지 폴더 경로
+val: path/to/images  # 검증 이미지 폴더 경로 (필요시 분리)
+nc: 1  # 클래스 수 (표지판만 탐지하므로 1)
+names: ['sign']  # 클래스 이름
+
+# 레이블 파일 경로 지정 (현재 구조에 맞게 설정)
+label: path/to/yolo  # YOLO 형식 레이블 파일이 있는 폴더 경로
